@@ -218,6 +218,7 @@ function beReady() {
         video: true
     })
         .then(stream => {
+            console.log("stream: ", stream)
             localStream = stream;
             localVideo.srcObject = stream;
 
@@ -235,6 +236,7 @@ function createConnectionAndAddStream() {
 }
 
 function processCall(userName) {
+    console.log("peer after click call: ", peerConnection);
     peerConnection.createOffer((sessionDescription) => {
         peerConnection.setLocalDescription(sessionDescription);
         sendCall({
@@ -248,6 +250,7 @@ function processCall(userName) {
 
 function processAccept() {
 
+    console.log("no set remote description")
     peerConnection.setRemoteDescription(new RTCSessionDescription(remoteRTCMessage));
     peerConnection.createAnswer((sessionDescription) => {
         peerConnection.setLocalDescription(sessionDescription);
@@ -293,8 +296,11 @@ function createPeerConnection() {
     try {
         peerConnection = new RTCPeerConnection(pcConfig);
         // peerConnection = new RTCPeerConnection();
-        peerConnection.onicecandidate = handleIceCandidate;
-        peerConnection.onaddstream = handleRemoteStreamAdded;
+        peerConnection.onicecandidate = handleIceCandidate;// trả về 1 RTCPeerConnectionIceEvent
+        console.log("no goi addstream")
+        
+        peerConnection.onaddstream = handleRemoteStreamAdded; // trả về 1 MediaStreamEvent
+        console.log("no goi addstream 2")
         peerConnection.onremovestream = handleRemoteStreamRemoved;
         console.log('Created RTCPeerConnnection');
         return;
@@ -306,7 +312,7 @@ function createPeerConnection() {
 }
 
 function handleIceCandidate(event) {
-    // console.log('icecandidate event: ', event);
+    console.log('icecandidate event: ', event);
     if (event.candidate) {
         console.log("Local ICE candidate");
         // console.log(event.candidate.candidate);
@@ -326,7 +332,7 @@ function handleIceCandidate(event) {
 }
 
 function handleRemoteStreamAdded(event) {
-    console.log('Remote stream added.');
+    console.log('Remote stream added.', event);
     remoteStream = event.stream;
     remoteVideo.srcObject = remoteStream;
 }

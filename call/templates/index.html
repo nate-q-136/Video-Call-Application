@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/logo.png" type="image/png" />
     <title>Video Call</title>
-    <link rel="stylesheet" href="/static/call.css">
+    <link rel="stylesheet" href="{% static "call.css" %}">
 
     <style>
         body {
@@ -149,7 +150,7 @@
     </div>
 
 
-    <script src="/static/call.js"></script>
+    <script src="{% static "call.js" %}"></script>
     <script>
         document.getElementById("call").style.display = "none";
         document.getElementById("userInfo").style.display = "none";
